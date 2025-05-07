@@ -8,6 +8,7 @@ import Renovations from './pages/Renovations';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAnalytics } from 'firebase/analytics';
+import { Home, Users, Wrench } from 'lucide-react';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -29,26 +30,46 @@ export default function App() {
 	return (
 		<Router>
 			<div className='min-h-screen bg-gray-100'>
-				<nav className='bg-white shadow p-4 flex justify-between'>
-					<h1 className='text-xl font-bold'>Room Rent Manager</h1>
-					<div className='space-x-4'>
-						<Link to='/' className='text-blue-600 hover:underline'>
-							Dashboard
-						</Link>
-						<Link to='/owners' className='text-blue-600 hover:underline'>
-							Room Owners
-						</Link>
-						<Link to='/renovations' className='text-blue-600 hover:underline'>
-							Renovation Costs
-						</Link>
+				{/* Navbar */}
+				<nav className='bg-white shadow-md fixed top-0 pb-4 pt-2 left-0 w-full z-10'>
+					<div className='max-w-7xl mx-auto px-4 h-20 flex flex-col sm:flex-row items-center justify-between'>
+						{/* Logo or Title */}
+						<h1 className='text-2xl sm:text-3xl font-extrabold tracking-wide text-gray-800 text-center sm:text-left py-2 sm:py-0 font-sans'>
+							RATAN MANAGEMENT SYSTEM
+						</h1>
+
+						{/* Navigation Links */}
+						<div className='flex flex-wrap gap-2 justify-center sm:justify-end w-full sm:w-auto'>
+							<Link
+								to='/'
+								className='flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-2xl shadow hover:bg-blue-600 transition-all'>
+								<Home size={18} />
+								Dashboard
+							</Link>
+							<Link
+								to='/owners'
+								className='flex items-center gap-2 bg-emerald-500 text-white px-4 py-2 rounded-2xl shadow hover:bg-emerald-600 transition-all'>
+								<Users size={18} />
+								Users
+							</Link>
+							<Link
+								to='/renovations'
+								className='flex items-center gap-2 bg-amber-500 text-white px-4 py-2 rounded-2xl shadow hover:bg-amber-600 transition-all'>
+								<Wrench size={18} />
+								Expenses
+							</Link>
+						</div>
 					</div>
 				</nav>
 
-				<main className='p-4'>
+				{/* Main Content with padding to account for navbar */}
+				<main className='pt-24 p-4'>
+					{' '}
+					{/* 👈 push content down more */}
 					<Routes>
 						<Route path='/' element={<Dashboard />} />
 						<Route path='/owners' element={<Owners />} />
-            <Route path='/renovations' element={<Renovations />} />
+						<Route path='/renovations' element={<Renovations />} />
 					</Routes>
 				</main>
 			</div>
