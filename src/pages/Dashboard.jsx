@@ -6,6 +6,16 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../App';
 import Swal from 'sweetalert2';
 import { Users, Wallet, Globe, BarChart2 } from 'lucide-react';
+import {
+	LineChart,
+	Line,
+	XAxis,
+	YAxis,
+	Tooltip,
+	CartesianGrid,
+	ResponsiveContainer,
+	Legend,
+} from 'recharts';
 
 export default function Dashboard() {
 	const [totalRenovationCost, setTotalRenovationCost] = useState(0);
@@ -111,6 +121,32 @@ export default function Dashboard() {
 	};
 
 	const totalRevenue = totalRentCollected - totalRenovationCost;
+
+	const getChartData = (owners) => {
+		const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+		const monthlyTotals = Array.from({ length: 12 }, (_, i) => ({
+			month: months[i],
+			rent: 0,
+			renovation: 0,
+		}));
+
+		owners.forEach((owner) => {
+			(owner.payments || []).forEach((p) => {
+				if (p.paid && p.month) {
+					const date = new Date(p.month);
+					const monthIdx = date.getMonth();
+					monthlyTotals[monthIdx].rent += p.amount || 0;
+				}
+			});
+		});
+
+		// Optional: add renovation costs from renovations collection (assumed monthly)
+		// If you want to support this, you'd need to fetch and store that in state as `renovationData[]`
+		// For now we keep renovation: 0
+
+		return monthlyTotals;
+	};
+
 
 	return (
 		<div className='space-y-8 pt-5'>
@@ -308,7 +344,36 @@ export default function Dashboard() {
 						</tbody>
 					</table>
 				</div>
+				<div className='bg-white p-6 rounded-2xl shadow-xl mt-8'>
+					<h2 className='text-2xl font-bold text-gray-800 mb-4'>
+						Monthly Revenue Overview
+					</h2>
+					<ResponsiveContainer width='100%' height={300}>
+						<LineChart
+							data={getChartData(owners)}
+							margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+							<CartesianGrid strokeDasharray='3 3' />
+							<XAxis dataKey='month' />
+							<YAxis />
+							<Tooltip />
+							<Legend />
+							<Line
+								type='monotone'
+								dataKey='rent'
+								stroke='#10B981'
+								name='Rent Collected'
+							/>
+							<Line
+								type='monotone'
+								dataKey='renovation'
+								stroke='#F59E0B'
+								name='Renovation Cost'
+							/>
+						</LineChart>
+					</ResponsiveContainer>
+				</div>
 			</div>
 		</div>
 	);
+
 }
