@@ -3,7 +3,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
-import Owners from './pages/Owners';
+import User from './pages/Users';
 import Renovations from './pages/Renovations';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
@@ -47,7 +47,7 @@ export default function App() {
 								Dashboard
 							</Link>
 							<Link
-								to='/owners'
+								to='/user'
 								className='flex items-center gap-2 bg-emerald-500 text-white px-4 py-2 rounded-2xl shadow hover:bg-emerald-600 transition-all'>
 								<Users size={18} />
 								Users
@@ -68,7 +68,7 @@ export default function App() {
 					{/* 👈 push content down more */}
 					<Routes>
 						<Route path='/' element={<Dashboard />} />
-						<Route path='/owners' element={<Owners />} />
+						<Route path='/User' element={<User />} />
 						<Route path='/renovations' element={<Renovations />} />
 					</Routes>
 				</main>

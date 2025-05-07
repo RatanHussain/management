@@ -9,6 +9,7 @@ import {
 	doc,
 } from 'firebase/firestore';
 import { db } from '../App';
+import { confirm } from 'react-confirm-box';
 import Swal from 'sweetalert2';
 
 export default function Renovations() {
@@ -125,16 +126,16 @@ export default function Renovations() {
 					<thead className='bg-gradient-to-r from-slate-100 to-slate-200 text-slate-700'>
 						<tr>
 							<th className='text-left px-6 py-3 text-xs font-semibold uppercase tracking-wider hidden sm:table-cell'>
-								Room
+								Room Number
 							</th>
 							<th className='text-left px-6 py-3 text-xs font-semibold uppercase tracking-wider'>
 								Date
 							</th>
 							<th className='text-left px-6 py-3 text-xs font-semibold uppercase tracking-wider'>
-								Descrp*
+								Description
 							</th>
 							<th className='text-left px-6 py-3 text-xs font-semibold uppercase tracking-wider'>
-								Amount
+								Amount (SR)
 							</th>
 							<th className='text-left px-6 py-3 text-xs font-semibold uppercase tracking-wider'>
 								Actions

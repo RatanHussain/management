@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../App';
 import Swal from 'sweetalert2';
-import { Users, Wallet, Globe, BarChart2 } from 'lucide-react';
 import {
 	LineChart,
 	Line,
@@ -16,6 +15,7 @@ import {
 	ResponsiveContainer,
 	Legend,
 } from 'recharts';
+import { BarChart2, Globe, Users, Wallet } from 'lucide-react';
 
 export default function Dashboard() {
 	const [totalRenovationCost, setTotalRenovationCost] = useState(0);
@@ -71,50 +71,63 @@ export default function Dashboard() {
 			'Nov',
 			'Dec',
 		];
-		const currentYear = new Date().getFullYear();
-		const currentMonth = new Date().getMonth();
-
-		// Start from February, so adjust for the starting month
-		const adjustedCurrentMonth = currentMonth === 0 ? 11 : currentMonth - 1; // If current month is January, use December from the previous year
 
 		const payments = owner.payments || [];
-		const paymentsThisYear = payments.filter((p) => {
-			if (!p.month) return false;
-			const date = new Date(p.month);
-			return date.getFullYear() === currentYear && p.paid;
-		});
 
-		const paidMonthIndices = paymentsThisYear.map((p) =>
-			new Date(p.month).getMonth()
-		);
-		const paidMonthNames = paidMonthIndices.map(
-			(m) => `${months[m]}-${currentYear}`
-		);
+		// Use 'joinDate' key
+		const joiningDateStr = owner.joinDate;
+		if (!joiningDateStr)
+			return {
+				totalPaid: 0,
+				paidMonths: 0,
+				paidMonthNames: [],
+				unpaidMonthNames: [],
+			};
 
-		// Adjust the range to exclude January (start from February)
-		const allMonths = Array.from(
-			{ length: adjustedCurrentMonth },
-			(_, i) => i + 1
-		);
-		const unpaidMonths = allMonths.filter((m) => !paidMonthIndices.includes(m));
+		const joiningDate = new Date(`${joiningDateStr}-01`);
+		const now = new Date();
+		const allMonthDates = [];
+		const format = (date) => `${months[date.getMonth()]}-${date.getFullYear()}`;
 
-		// Always include the current month as unpaid if it's not already paid
-		if (!paidMonthIndices.includes(currentMonth)) {
-			unpaidMonths.push(currentMonth);
+		const date = new Date(joiningDate);
+		while (date <= now) {
+			allMonthDates.push(new Date(date));
+			date.setMonth(date.getMonth() + 1);
 		}
 
-		const unpaidMonthNames = unpaidMonths.map(
-			(m) => `${months[m]}-${currentYear}`
+		const paidMonths = new Set(
+			payments
+				.filter((p) => p.paid && p.month)
+				.map((p) => {
+					try {
+						const d = new Date(`${p.month}-01`);
+						return `${d.getFullYear()}-${d.getMonth()}`;
+					} catch {
+						return null;
+					}
+				})
+				.filter(Boolean)
 		);
 
-		const totalPaid = paymentsThisYear.reduce(
-			(sum, p) => sum + (p.amount || 0),
-			0
-		);
+		const paidMonthNames = [];
+		const unpaidMonthNames = [];
+
+		for (let m of allMonthDates) {
+			const key = `${m.getFullYear()}-${m.getMonth()}`;
+			if (paidMonths.has(key)) {
+				paidMonthNames.push(format(m));
+			} else {
+				unpaidMonthNames.push(format(m));
+			}
+		}
+
+		const totalPaid = payments
+			.filter((p) => p.paid)
+			.reduce((sum, p) => sum + (p.amount || 0), 0);
 
 		return {
 			totalPaid,
-			paidMonths: paidMonthIndices.length,
+			paidMonths: paidMonthNames.length,
 			paidMonthNames,
 			unpaidMonthNames,
 		};
@@ -123,7 +136,20 @@ export default function Dashboard() {
 	const totalRevenue = totalRentCollected - totalRenovationCost;
 
 	const getChartData = (owners) => {
-		const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+		const months = [
+			'Jan',
+			'Feb',
+			'Mar',
+			'Apr',
+			'May',
+			'Jun',
+			'Jul',
+			'Aug',
+			'Sep',
+			'Oct',
+			'Nov',
+			'Dec',
+		];
 		const monthlyTotals = Array.from({ length: 12 }, (_, i) => ({
 			month: months[i],
 			rent: 0,
@@ -147,17 +173,17 @@ export default function Dashboard() {
 		return monthlyTotals;
 	};
 
-
 	return (
 		<div className='space-y-8 pt-5'>
+			{/* Summary Section */}
 			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
-				{/* All Users */}
-				<Link to='/owners'>
+				{/* Total Users Card */}
+				<Link to='/Users'>
 					<div className='bg-gradient-to-br from-blue-500 to-blue-700 p-6 rounded-2xl shadow-md hover:shadow-xl transform transition duration-200 hover:scale-[1.03]'>
 						<div className='flex items-center justify-between'>
 							<div>
 								<h3 className='text-xl font-bold text-white mb-1'>All Users</h3>
-								<p className='text-blue-100'>Total: {totalOwners}</p>
+								<p className='text-blue-100'>{totalOwners}</p>
 							</div>
 							<Users className='text-white' size={32} />
 						</div>
@@ -206,6 +232,7 @@ export default function Dashboard() {
 				</div>
 			</div>
 
+			{/* User Status Table */}
 			<div className='bg-white p-6 rounded-2xl shadow-xl'>
 				<h2 className='text-3xl font-bold text-gray-800 mb-6'>User Status</h2>
 				<div className='overflow-x-auto'>
@@ -222,7 +249,7 @@ export default function Dashboard() {
 									Months Paid
 								</th>
 								<th className='px-6 py-3 text-xs font-semibold text-gray-600 uppercase hidden md:table-cell'>
-									Paid Months
+									Paid Month Names
 								</th>
 								<th className='px-6 py-3 text-xs font-semibold text-gray-600 uppercase'>
 									Unpaid Months
@@ -311,7 +338,7 @@ export default function Dashboard() {
 																owner.name
 															}, you should pay for: ${currentUnpaid
 																.concat(remainingUnpaid)
-																.join(', ')}. Please pay as soon as possible.`;
+																.join(', ')} please pay as soon as possible.`;
 															window.open(
 																`https://wa.me/${
 																	owner.phone
@@ -328,8 +355,8 @@ export default function Dashboard() {
 													<td
 														colSpan='6'
 														className='px-6 py-3 text-sm text-gray-700'>
-														<strong className='text-green-600'>Paid:</strong>{' '}
-														{paidMonthNames.join(', ')} <br />
+														<strong>Paid:</strong> {paidMonthNames.join(', ')}
+														<br />
 														<strong className='text-red-600'>
 															Unpaid:
 														</strong>{' '}
@@ -344,6 +371,8 @@ export default function Dashboard() {
 						</tbody>
 					</table>
 				</div>
+
+				{/* Monthly Revenue Chart */}
 				<div className='bg-white p-6 rounded-2xl shadow-xl mt-8'>
 					<h2 className='text-2xl font-bold text-gray-800 mb-4'>
 						Monthly Revenue Overview
@@ -375,5 +404,4 @@ export default function Dashboard() {
 			</div>
 		</div>
 	);
-
 }
