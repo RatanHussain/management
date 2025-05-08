@@ -29,7 +29,7 @@ export const db = getFirestore(app);
 export default function App() {
 	return (
 		<Router>
-			<div className='min-h-screen bg-gray-100'>
+			<div className=' bg-gray-100'>
 				{/* Navbar */}
 				<nav className='bg-white shadow-md fixed top-0 pb-4 pt-2 left-0 w-full z-10'>
 					<div className='max-w-7xl mx-auto px-4 h-20 flex flex-col sm:flex-row items-center justify-between'>

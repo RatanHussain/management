@@ -15,7 +15,13 @@ import {
 	ResponsiveContainer,
 	Legend,
 } from 'recharts';
-import { BarChart2, Globe, Users, Wallet } from 'lucide-react';
+import {
+	BarChart2,
+	Globe,
+	Users,
+	Wallet,
+	ChartNoAxesCombined,
+} from 'lucide-react';
 
 export default function Dashboard() {
 	const [totalRenovationCost, setTotalRenovationCost] = useState(0);
@@ -23,6 +29,7 @@ export default function Dashboard() {
 	const [totalRentCollected, setTotalRentCollected] = useState(0);
 	const [owners, setOwners] = useState([]);
 	const [expandedOwner, setExpandedOwner] = useState(null);
+	const [renovationData, setRenovationData] = useState([]);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -51,6 +58,10 @@ export default function Dashboard() {
 				);
 			}, 0);
 			setTotalRentCollected(rentTotal);
+			const renovationList = renovationSnapshot.docs.map((doc) => ({
+				...doc.data(),
+			}));
+			setRenovationData(renovationList);
 		};
 
 		fetchData();
@@ -135,7 +146,7 @@ export default function Dashboard() {
 
 	const totalRevenue = totalRentCollected - totalRenovationCost;
 
-	const getChartData = (owners) => {
+	const getChartData = (owners, renovations) => {
 		const months = [
 			'Jan',
 			'Feb',
@@ -166,23 +177,29 @@ export default function Dashboard() {
 			});
 		});
 
-		// Optional: add renovation costs from renovations collection (assumed monthly)
-		// If you want to support this, you'd need to fetch and store that in state as `renovationData[]`
-		// For now we keep renovation: 0
+		renovations.forEach((r) => {
+			if (r.date && r.amount) {
+				const date = new Date(r.date); // Make sure 'date' in Firestore is a parsable string or Timestamp
+				const monthIdx = date.getMonth();
+				monthlyTotals[monthIdx].renovation += r.amount || 0;
+			}
+		});
 
 		return monthlyTotals;
 	};
 
 	return (
-		<div className='space-y-8 pt-5'>
+		<div className='space-y-8  pt-5'>
 			{/* Summary Section */}
 			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
 				{/* Total Users Card */}
-				<Link to='/Users'>
+				<Link to='/User'>
 					<div className='bg-gradient-to-br from-blue-500 to-blue-700 p-6 rounded-2xl shadow-md hover:shadow-xl transform transition duration-200 hover:scale-[1.03]'>
 						<div className='flex items-center justify-between'>
 							<div>
-								<h3 className='text-xl font-bold text-white mb-1'>All Users</h3>
+								<h3 className='text-xl font-bold text-white mb-1'>
+									Total Users
+								</h3>
 								<p className='text-blue-100'>{totalOwners}</p>
 							</div>
 							<Users className='text-white' size={32} />
@@ -191,7 +208,7 @@ export default function Dashboard() {
 				</Link>
 
 				{/* Monthly Revenue Collected */}
-				<Link to='/owners'>
+				<Link to='/user'>
 					<div className='bg-gradient-to-br from-emerald-500 to-emerald-700 p-6 rounded-2xl shadow-md hover:shadow-xl transform transition duration-200 hover:scale-[1.03]'>
 						<div className='flex items-center justify-between'>
 							<div>
@@ -227,7 +244,7 @@ export default function Dashboard() {
 							<h3 className='text-xl font-bold text-white mb-1'>Net Revenue</h3>
 							<p className='text-rose-100'>SAR {totalRevenue}</p>
 						</div>
-						<BarChart2 className='text-white' size={32} />
+						<ChartNoAxesCombined className='text-white' size={32} />
 					</div>
 				</div>
 			</div>
@@ -379,7 +396,7 @@ export default function Dashboard() {
 					</h2>
 					<ResponsiveContainer width='100%' height={300}>
 						<LineChart
-							data={getChartData(owners)}
+							data={getChartData(owners, renovationData)}
 							margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
 							<CartesianGrid strokeDasharray='3 3' />
 							<XAxis dataKey='month' />
@@ -390,13 +407,13 @@ export default function Dashboard() {
 								type='monotone'
 								dataKey='rent'
 								stroke='#10B981'
-								name='Rent Collected'
+								name='Payment Received'
 							/>
 							<Line
 								type='monotone'
 								dataKey='renovation'
 								stroke='#F59E0B'
-								name='Renovation Cost'
+								name='Expenses (Internet)'
 							/>
 						</LineChart>
 					</ResponsiveContainer>

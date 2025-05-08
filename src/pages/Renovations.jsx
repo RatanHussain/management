@@ -59,7 +59,7 @@ export default function Renovations() {
 	};
 
 	return (
-		<div className='space-y-6 pt-5'>
+		<div className='space-y-6 max-w-7xl mx-auto pt-5'>
 			<h2 className='text-2xl font-semibold text-gray-800'>
 				Internet package Costs
 			</h2>
@@ -67,7 +67,7 @@ export default function Renovations() {
 			{/* Add Renovation Form */}
 			<form
 				onSubmit={handleAddRenovation}
-				className='bg-white p-6 rounded-xl shadow-md max-w-4xl mx-auto space-y-6'>
+				className='bg-white p-6 rounded-xl shadow-md max-w-full mx-auto space-y-6'>
 				<h3 className='text-xl font-semibold text-gray-700'>Add Expenses</h3>
 				<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6'>
 					<input
@@ -121,23 +121,23 @@ export default function Renovations() {
 			</form>
 
 			{/* Renovation List */}
-			<div className='overflow-x-auto'>
-				<table className='min-w-full bg-white rounded-2xl shadow-xl border-separate border-spacing-y-2'>
-					<thead className='bg-gradient-to-r from-slate-100 to-slate-200 text-slate-700'>
+			<div className='overflow-x-auto rounded-2xl shadow-2xl mx-auto text-center'>
+				<table className='min-w-full bg-white border-separate border-spacing-y-2'>
+					<thead className='bg-gradient-to-r from-slate-100 to-slate-200 text-slate-700 uppercase text-sm tracking-wide'>
 						<tr>
-							<th className='text-left px-6 py-3 text-xs font-semibold uppercase tracking-wider hidden sm:table-cell'>
+							<th className=' px-6 py-3 hidden md:table-cell'>
 								Room Number
 							</th>
-							<th className='text-left px-6 py-3 text-xs font-semibold uppercase tracking-wider'>
+							<th  className=' px-6 py-3'>
 								Date
 							</th>
-							<th className='text-left px-6 py-3 text-xs font-semibold uppercase tracking-wider'>
+							<th  className=' px-6 py-3'>
 								Description
 							</th>
-							<th className='text-left px-6 py-3 text-xs font-semibold uppercase tracking-wider'>
+							<th  className='text-right px-6 py-3'>
 								Amount (SR)
 							</th>
-							<th className='text-left px-6 py-3 text-xs font-semibold uppercase tracking-wider'>
+							<th className=' px-6 py-3 hidden md:table-cell'>
 								Actions
 							</th>
 						</tr>
@@ -146,25 +146,25 @@ export default function Renovations() {
 						{renovations.map((entry) => (
 							<tr
 								key={entry.id}
-								className='bg-white shadow hover:shadow-md transition rounded-lg'>
+								className='bg-white shadow-md rounded-xl hover:shadow-lg transition'>
 								<td className='px-5 py-4 text-sm text-gray-800 hidden sm:table-cell'>
 									<span className='inline-block bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs font-medium'>
 										{entry.roomNumber}
 									</span>
 								</td>
-								<td className='px-5 py-4 text-sm text-gray-700'>
+								<td className='px-5 py-4 text-gray-800 text-sm'>
 									{entry.date}
 								</td>
-								<td className='px-5 py-4 text-sm text-gray-700'>
+								<td className='px-5 py-4 text-gray-800 text-sm'>
 									{entry.description}
 								</td>
-								<td className='px-5 py-4 text-sm text-emerald-600 font-semibold'>
+								<td className='px-8 py-4 text-sm text-emerald-600 font-semibold'>
 									SAR {entry.amount}
 								</td>
 								<td className='px-5 py-4 text-sm'>
 									<button
 										onClick={() => handleDelete(entry.id)}
-										className='bg-red-500 text-white px-2 py-1.5 rounded-full hover:bg-red-600 transition'>
+										className='bg-red-500 text-white px-2 py-1.5 rounded-full hover:bg-red-600 transition hidden md:table-cell'>
 										Delete
 									</button>
 								</td>

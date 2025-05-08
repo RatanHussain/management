@@ -99,7 +99,7 @@ export default function Owners() {
 	};
 
 	return (
-		<div className='space-y-6 p-4 md:p-8'>
+		<div className='space-y-6 max-w-7xl mx-auto md:p-8'>
 			<h2 className='text-2xl  text-gray-800'>User details</h2>
 
 			{/* Add Owner Form */}
@@ -233,7 +233,7 @@ export default function Owners() {
 									<td className='px-6 py-4 space-y-2 text-sm'>
 										<button
 											onClick={() => handleDelete(owner.id)}
-											className='bg-red-500 text-white px-3 py-1 rounded-full hover:bg-red-600 transition'>
+											className='bg-red-500 text-white px-3 py-1 rounded-full hover:bg-red-600 transition hidden md:table-cell'>
 											Delete
 										</button>
 										<button
