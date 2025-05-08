@@ -1,6 +1,6 @@
 /** @format */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import User from './pages/Users';
@@ -27,6 +27,42 @@ const analytics = getAnalytics(app);
 export const db = getFirestore(app);
 
 export default function App() {
+	useEffect(() => {
+		// Block right-click
+		const handleContextMenu = (e) => {
+			e.preventDefault();
+		};
+
+		// Block key shortcuts
+		const handleKeyDown = (e) => {
+			// F12
+			if (e.keyCode === 123) {
+				e.preventDefault();
+			}
+			// Ctrl+Shift+I/J/C
+			if (
+				e.ctrlKey &&
+				e.shiftKey &&
+				['I', 'J', 'C'].includes(e.key.toUpperCase())
+			) {
+				e.preventDefault();
+			}
+			// Ctrl+U
+			if (e.ctrlKey && e.key.toLowerCase() === 'u') {
+				e.preventDefault();
+			}
+		};
+
+		document.addEventListener('contextmenu', handleContextMenu);
+		document.addEventListener('keydown', handleKeyDown);
+
+		// Cleanup
+		return () => {
+			document.removeEventListener('contextmenu', handleContextMenu);
+			document.removeEventListener('keydown', handleKeyDown);
+		};
+	}, []);
+
 	return (
 		<Router>
 			<div className=' bg-gray-100'>
