@@ -191,7 +191,7 @@ export default function Dashboard() {
 	return (
 		<div className='space-y-8  pt-5'>
 			{/* Summary Section */}
-			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+			<div className='grid grid-cols-1 px-2 md:grid-cols-2 lg:grid-cols-4 gap-6'>
 				{/* Total Users Card */}
 				<Link to='/User'>
 					<div className='bg-gradient-to-br from-blue-500 to-blue-700 p-6 rounded-2xl shadow-md hover:shadow-xl transform transition duration-200 hover:scale-[1.03]'>
@@ -250,12 +250,12 @@ export default function Dashboard() {
 			</div>
 
 			{/* User Status Table */}
-			<div className='bg-white p-6 rounded-2xl shadow-xl'>
-				<h2 className='text-3xl font-bold text-gray-800 mb-6'>User Status</h2>
+			<div className='bg-white py-6 rounded-2xl shadow-xl'>
+				<h2 className='text-3xl font-bold text-gray-800 px-5 mb-6'>User Status</h2>
 				<div className='overflow-x-auto'>
-					<table className='min-w-full border-separate border-spacing-y-2'>
+					<table className='min-w-full text-center border-separate border-spacing-y-2'>
 						<thead className='bg-gradient-to-r from-slate-100 to-slate-200 rounded-lg'>
-							<tr className='text-left'>
+							<tr className=''>
 								<th className='px-6 py-3 text-xs font-semibold text-gray-600 uppercase'>
 									User Name
 								</th>
@@ -294,8 +294,8 @@ export default function Dashboard() {
 									const isExpanded = expandedOwner === owner.id;
 									return (
 										<React.Fragment key={owner.id}>
-											<tr className='bg-white shadow-sm hover:shadow-md transition rounded-lg'>
-												<td className='px-6 py-4 text-sm text-gray-800'>
+											<tr className='bg-white text-center shadow-sm hover:shadow-md transition rounded-lg'>
+												<td className='text-start ps-4 py-4 text-sm text-gray-800'>
 													{owner.name}
 												</td>
 												<td className='px-6 py-4 text-sm text-green-600 font-medium hidden md:table-cell'>
@@ -326,7 +326,7 @@ export default function Dashboard() {
 															: `Show (${unpaidMonthNames.length}) Months`}
 													</button>
 												</td>
-												<td className='px-6 py-4'>
+												<td className=' m-auto text-end pe-2 py-4'>
 													<button
 														className='bg-emerald-500 text-white px-4 py-2 rounded-full shadow hover:bg-emerald-600 transition'
 														onClick={() => {
@@ -353,9 +353,9 @@ export default function Dashboard() {
 															);
 															const message = `Dear ${
 																owner.name
-															}, you should pay for: ${currentUnpaid
+															},\nYour internet bill for: ${currentUnpaid
 																.concat(remainingUnpaid)
-																.join(', ')} please pay as soon as possible.`;
+																.join(', and ')}\n \nPlease pay as soon as possible.`;
 															window.open(
 																`https://wa.me/${
 																	owner.phone
@@ -390,8 +390,8 @@ export default function Dashboard() {
 				</div>
 
 				{/* Monthly Revenue Chart */}
-				<div className='bg-white p-6 rounded-2xl shadow-xl mt-8'>
-					<h2 className='text-2xl font-bold text-gray-800 mb-4'>
+				<div className='mt-5 py-6' >
+					<h2 className='text-2xl font-bold text-gray-800 mb-4 px-5'>
 						Monthly Revenue Overview
 					</h2>
 					<ResponsiveContainer width='100%' height={300}>
@@ -418,6 +418,7 @@ export default function Dashboard() {
 						</LineChart>
 					</ResponsiveContainer>
 				</div>
+
 			</div>
 		</div>
 	);

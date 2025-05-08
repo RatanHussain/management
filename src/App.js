@@ -71,7 +71,7 @@ export default function App() {
 					<div className='max-w-7xl mx-auto px-4 h-20 flex flex-col sm:flex-row items-center justify-between'>
 						{/* Logo or Title */}
 						<h1 className='text-2xl sm:text-3xl font-extrabold tracking-wide text-gray-800 text-center sm:text-left py-2 sm:py-0 font-sans'>
-							RATAN MANAGEMENT SYSTEM
+							RATAN MANAGEMENT
 						</h1>
 
 						{/* Navigation Links */}
@@ -99,7 +99,7 @@ export default function App() {
 				</nav>
 
 				{/* Main Content with padding to account for navbar */}
-				<main className='pt-24 p-4'>
+				<main className='pt-24  p-2 '>
 					{' '}
 					{/* 👈 push content down more */}
 					<Routes>

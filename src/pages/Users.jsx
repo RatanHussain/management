@@ -12,6 +12,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '../App';
 import Swal from 'sweetalert2';
+import { PhoneOutgoing } from 'lucide-react';
 
 export default function Owners() {
 	const [owners, setOwners] = useState([]);
@@ -99,7 +100,7 @@ export default function Owners() {
 	};
 
 	return (
-		<div className='space-y-6 max-w-7xl mx-auto md:p-8'>
+		<div className='space-y-6 max-w-7xl mx-auto pt-5 md:p-8'>
 			<h2 className='text-2xl  text-gray-800'>User details</h2>
 
 			{/* Add Owner Form */}
@@ -159,15 +160,11 @@ export default function Owners() {
 				<table className='min-w-full bg-white border-separate border-spacing-y-2'>
 					<thead className='bg-gradient-to-r from-slate-100 to-slate-200 text-slate-700 uppercase text-sm tracking-wide'>
 						<tr>
-							<th className='text-left px-6 py-3'>User Name</th>
-							<th className='text-left px-6 py-3 hidden md:table-cell'>
-								Room No
-							</th>
-							<th className='text-left px-6 py-3 hidden md:table-cell'>
-								Phone
-							</th>
-							<th className='text-left px-6 py-3'>History</th>
-							<th className='text-left px-6 py-3'>Actions</th>
+							<th className=' py-3'>Name</th>
+							<th className=' py-3 hidden md:table-cell'>Room No</th>
+							<th className=' py-3 md:table-cell'>Phone</th>
+							<th className=' py-3'>History</th>
+							<th className=' py-3'>Actions</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -190,11 +187,11 @@ export default function Owners() {
 											{owner.roomNumber}
 										</span>
 									</td>
-									<td className='px-6 py-4 hidden md:table-cell text-gray-700 text-sm'>
+									<td className='px-6 py-4 text-center  md:table-cell text-gray-700 text-sm'>
 										<a
 											href={`tel:${owner.phone}`}
-											className='hover:text-blue-600'>
-											{owner.phone}
+											className='text-blue-600 m-auto text-center hover:underline'>
+											<PhoneOutgoing className='m-auto' size='20' />
 										</a>
 									</td>
 									<td className='px-6 py-4 text-sm'>
@@ -238,8 +235,8 @@ export default function Owners() {
 										</button>
 										<button
 											onClick={() => setSelectedOwnerId(owner.id)}
-											className='bg-blue-500 text-white px-3 py-1 rounded-full hover:bg-blue-600 transition'>
-											Add Rent
+											className='bg-blue-500 text-white md:ms-2 p-3 py-1 rounded-full hover:bg-blue-600 transition'>
+											Pay
 										</button>
 									</td>
 								</tr>

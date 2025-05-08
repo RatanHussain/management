@@ -9,7 +9,6 @@ import {
 	doc,
 } from 'firebase/firestore';
 import { db } from '../App';
-import { confirm } from 'react-confirm-box';
 import Swal from 'sweetalert2';
 
 export default function Renovations() {
@@ -59,17 +58,15 @@ export default function Renovations() {
 	};
 
 	return (
-		<div className='space-y-6 max-w-7xl mx-auto pt-5'>
-			<h2 className='text-2xl font-semibold text-gray-800'>
-				Internet package Costs
-			</h2>
+		<div className='max-w-7xl mx-auto py-6 space-y-8'>
+			<h2 className='text-3xl font-bold text-gray-900'>Package cost</h2>
 
 			{/* Add Renovation Form */}
 			<form
 				onSubmit={handleAddRenovation}
-				className='bg-white p-6 rounded-xl shadow-md max-w-full mx-auto space-y-6'>
-				<h3 className='text-xl font-semibold text-gray-700'>Add Expenses</h3>
-				<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6'>
+				className='bg-white p-6 rounded-2xl shadow-xl space-y-4'>
+				<h3 className='text-2xl font-semibold text-gray-800'>Add Expense</h3>
+				<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
 					<input
 						type='text'
 						placeholder='Room Number'
@@ -77,7 +74,7 @@ export default function Renovations() {
 						onChange={(e) =>
 							setNewRenovation({ ...newRenovation, roomNumber: e.target.value })
 						}
-						className='border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500'
+						className='border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
 						required
 					/>
 					<input
@@ -86,7 +83,7 @@ export default function Renovations() {
 						onChange={(e) =>
 							setNewRenovation({ ...newRenovation, date: e.target.value })
 						}
-						className='border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500'
+						className='border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
 						required
 					/>
 					<input
@@ -99,7 +96,7 @@ export default function Renovations() {
 								description: e.target.value,
 							})
 						}
-						className='border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500'
+						className='border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
 						required
 					/>
 					<input
@@ -109,62 +106,42 @@ export default function Renovations() {
 						onChange={(e) =>
 							setNewRenovation({ ...newRenovation, amount: e.target.value })
 						}
-						className='border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500'
+						className='border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
 						required
 					/>
 				</div>
 				<button
 					type='submit'
-					className='w-full py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none'>
-					Add Expenses
+					className='w-full py-3 bg-green-600 text-white text-lg rounded-xl hover:bg-green-700 transition'>
+					Add Expense
 				</button>
 			</form>
 
 			{/* Renovation List */}
-			<div className='overflow-x-auto rounded-2xl shadow-2xl mx-auto text-center'>
-				<table className='min-w-full bg-white border-separate border-spacing-y-2'>
-					<thead className='bg-gradient-to-r from-slate-100 to-slate-200 text-slate-700 uppercase text-sm tracking-wide'>
+			<div className='bg-white p-4 rounded-2xl shadow-xl overflow-x-auto'>
+				<table className='min-w-full divide-y divide-gray-200'>
+					<thead className='bg-gray-100'>
 						<tr>
-							<th className=' px-6 py-3 hidden md:table-cell'>
-								Room Number
-							</th>
-							<th  className=' px-6 py-3'>
-								Date
-							</th>
-							<th  className=' px-6 py-3'>
-								Description
-							</th>
-							<th  className='text-right px-6 py-3'>
-								Amount (SR)
-							</th>
-							<th className=' px-6 py-3 hidden md:table-cell'>
-								Actions
-							</th>
+							<th className='px-6 hidden md:table-cell py-3 text-left text-sm font-semibold text-gray-700'>Room</th>
+							<th className='px-6 py-3 text-left text-sm font-semibold text-gray-700'>Date</th>
+							<th className='px-6 py-3 text-left text-sm font-semibold text-gray-700'>Description</th>
+							<th className='px-6 py-3 text-right text-sm font-semibold text-gray-700'>Amount</th>
+							<th className='px-6 hidden md:table-cell py-3 text-center text-sm font-semibold text-gray-700'>Action</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody className='divide-y divide-gray-100'>
 						{renovations.map((entry) => (
-							<tr
-								key={entry.id}
-								className='bg-white shadow-md rounded-xl hover:shadow-lg transition'>
-								<td className='px-5 py-4 text-sm text-gray-800 hidden sm:table-cell'>
-									<span className='inline-block bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs font-medium'>
-										{entry.roomNumber}
-									</span>
+							<tr key={entry.id} className='hover:bg-gray-50'>
+								<td className='px-6 hidden md:table-cell py-4 text-sm text-gray-800'>{entry.roomNumber}</td>
+								<td className='px-6 py-4 text-sm text-gray-600'>{entry.date}</td>
+								<td className='px-6 py-4 text-sm text-gray-600'>{entry.description}</td>
+								<td className='px-6 py-4 text-right text-sm font-medium text-emerald-600'>
+									{entry.amount.toFixed(2)}
 								</td>
-								<td className='px-5 py-4 text-gray-800 text-sm'>
-									{entry.date}
-								</td>
-								<td className='px-5 py-4 text-gray-800 text-sm'>
-									{entry.description}
-								</td>
-								<td className='px-8 py-4 text-sm text-emerald-600 font-semibold'>
-									SAR {entry.amount}
-								</td>
-								<td className='px-5 py-4 text-sm'>
+								<td className='px-6 hidden md:table-cell py-4 text-center'>
 									<button
 										onClick={() => handleDelete(entry.id)}
-										className='bg-red-500 text-white px-2 py-1.5 rounded-full hover:bg-red-600 transition hidden md:table-cell'>
+										className='text-red-600 hover:text-red-800 font-medium'>
 										Delete
 									</button>
 								</td>
