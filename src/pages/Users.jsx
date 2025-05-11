@@ -17,6 +17,7 @@ import { PhoneOutgoing } from 'lucide-react';
 export default function Owners() {
 	const [owners, setOwners] = useState([]);
 	const [selectedOwnerId, setSelectedOwnerId] = useState(null);
+	const [AddUser, setAddUser] = useState(null);
 	const [form, setForm] = useState({ month: '', amount: '', paid: 'true' });
 	const [newOwner, setNewOwner] = useState({
 		name: '',
@@ -103,57 +104,75 @@ export default function Owners() {
 		<div className='space-y-6 max-w-7xl mx-auto pt-5 md:p-8'>
 			<h2 className='text-2xl  text-gray-800'>User details</h2>
 
-			{/* Add Owner Form */}
-			<form
-				onSubmit={addNewOwner}
-				className='bg-white p-6 rounded-2xl shadow-xl space-y-4'>
-				<h3 className='text-xl font-semibold text-gray-700'>Add New User</h3>
-				<div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-					<input
-						type='text'
-						placeholder='Name'
-						value={newOwner.name}
-						onChange={(e) => setNewOwner({ ...newOwner, name: e.target.value })}
-						className='border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
-						required
-					/>
-					<input
-						type='text'
-						placeholder='Room Number'
-						value={newOwner.roomNumber}
-						onChange={(e) =>
-							setNewOwner({ ...newOwner, roomNumber: e.target.value })
-						}
-						className='border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
-						required
-					/>
-					<input
-						type='text'
-						placeholder='Phone'
-						value={newOwner.phone}
-						onChange={(e) =>
-							setNewOwner({ ...newOwner, phone: e.target.value })
-						}
-						className='border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
-						required
-					/>
-					<input
-						type='month'
-						placeholder='Join Date'
-						value={newOwner.joinDate}
-						onChange={(e) =>
-							setNewOwner({ ...newOwner, joinDate: e.target.value })
-						}
-						className='border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
-						required
-					/>
-				</div>
-				<button
-					type='submit'
-					className='bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition'>
-					Add User
-				</button>
-			</form>
+			<button
+				onClick={() => (AddUser ? setAddUser(null) : setAddUser(true))}
+				className={`bg-green-600 w-full  text-white px-6 py-2 rounded-lg hover:bg-green-700 transition  ${
+					AddUser ? 'hidden' : ''
+				} `}>
+				{AddUser ? 'Close Form' : 'Add New User'}
+			</button>
+
+			{AddUser && (
+				<form
+					onSubmit={addNewOwner}
+					className='bg-white p-6 rounded-2xl shadow-xl space-y-4 transition'>
+					<h3 className='text-xl font-semibold text-gray-700'>Add New User</h3>
+					<div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+						<input
+							type='text'
+							placeholder='Name'
+							value={newOwner.name}
+							onChange={(e) =>
+								setNewOwner({ ...newOwner, name: e.target.value })
+							}
+							className='border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
+							required
+						/>
+						<input
+							type='text'
+							placeholder='Room Number'
+							value={newOwner.roomNumber}
+							onChange={(e) =>
+								setNewOwner({ ...newOwner, roomNumber: e.target.value })
+							}
+							className='border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
+							required
+						/>
+						<input
+							type='text'
+							placeholder='Phone'
+							value={newOwner.phone}
+							onChange={(e) =>
+								setNewOwner({ ...newOwner, phone: e.target.value })
+							}
+							className='border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
+							required
+						/>
+						<input
+							type='month'
+							placeholder='Join Date'
+							value={newOwner.joinDate}
+							onChange={(e) =>
+								setNewOwner({ ...newOwner, joinDate: e.target.value })
+							}
+							className='border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
+							required
+						/>
+					</div>
+					<div className='flex justify-between pt-2'>
+					<button
+						type='submit'
+						className='bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition'>
+						Add User
+					</button>
+					<button
+						onClick={() => setAddUser(null)}
+						className='me-1 pe-1 text-gray-600 hover:underline'>
+						Cencel
+					</button>
+					</div>
+				</form>
+			)}
 
 			{/* Owner Table */}
 			<div className='overflow-x-auto rounded-2xl shadow-2xl'>
