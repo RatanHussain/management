@@ -56,7 +56,7 @@ export default function Owners() {
 	const handleDelete = async (id) => {
 		const result = await Swal.fire({
 			title: 'Are you sure?',
-			text: 'This will permanently delete the owner.',
+			text: 'This will permanently delete the user.',
 			icon: 'warning',
 			showCancelButton: true,
 			confirmButtonColor: '#d33',
@@ -67,7 +67,7 @@ export default function Owners() {
 		if (result.isConfirmed) {
 			await deleteDoc(doc(db, 'roomOwners', id));
 			setOwners((prev) => prev.filter((owner) => owner.id !== id));
-			Swal.fire('Deleted!', 'Owner has been removed.', 'success');
+			Swal.fire('Deleted!', 'User has been removed.', 'success');
 		}
 	};
 
