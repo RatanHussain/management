@@ -190,6 +190,35 @@ export default function Dashboard() {
 
 	return (
 		<div className='space-y-8  pt-5'>
+			{/* Monthly Revenue Chart */}
+				<div className='mt-5 py-6' >
+					<h2 className='text-2xl font-bold text-gray-800 mb-4 px-5'>
+						Monthly Revenue Overview
+					</h2>
+					<ResponsiveContainer width='100%' height={300}>
+						<LineChart
+							data={getChartData(owners, renovationData)}
+							margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+							<CartesianGrid strokeDasharray='3 3' />
+							<XAxis dataKey='month' />
+							<YAxis />
+							<Tooltip />
+							<Legend />
+							<Line
+								type='monotone'
+								dataKey='rent'
+								stroke='#10B981'
+								name='Payment Received'
+							/>
+							<Line
+								type='monotone'
+								dataKey='renovation'
+								stroke='#F59E0B'
+								name='Expenses (Internet)'
+							/>
+						</LineChart>
+					</ResponsiveContainer>
+				</div>
 			{/* Summary Section */}
 			<div className='grid grid-cols-1 px-2 md:grid-cols-2 lg:grid-cols-4 gap-6'>
 				{/* Total Users Card */}
@@ -213,7 +242,7 @@ export default function Dashboard() {
 						<div className='flex items-center justify-between'>
 							<div>
 								<h3 className='text-xl font-bold text-white mb-1'>
-									Monthly Revenue
+									Total Collected
 								</h3>
 								<p className='text-emerald-100'>SAR {totalRentCollected}</p>
 							</div>
@@ -248,6 +277,8 @@ export default function Dashboard() {
 					</div>
 				</div>
 			</div>
+
+
 
 			{/* User Status Table */}
 			<div className='bg-white py-6 rounded-2xl shadow-xl'>
@@ -389,35 +420,7 @@ export default function Dashboard() {
 					</table>
 				</div>
 
-				{/* Monthly Revenue Chart */}
-				<div className='mt-5 py-6' >
-					<h2 className='text-2xl font-bold text-gray-800 mb-4 px-5'>
-						Monthly Revenue Overview
-					</h2>
-					<ResponsiveContainer width='100%' height={300}>
-						<LineChart
-							data={getChartData(owners, renovationData)}
-							margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-							<CartesianGrid strokeDasharray='3 3' />
-							<XAxis dataKey='month' />
-							<YAxis />
-							<Tooltip />
-							<Legend />
-							<Line
-								type='monotone'
-								dataKey='rent'
-								stroke='#10B981'
-								name='Payment Received'
-							/>
-							<Line
-								type='monotone'
-								dataKey='renovation'
-								stroke='#F59E0B'
-								name='Expenses (Internet)'
-							/>
-						</LineChart>
-					</ResponsiveContainer>
-				</div>
+
 
 			</div>
 		</div>

@@ -60,7 +60,7 @@ export default function Renovations() {
 
 	return (
 		<div className='max-w-7xl mx-auto py-6 space-y-8'>
-			<h2 className='text-3xl font-bold text-gray-900'>Package cost</h2>
+			<h2 className='text-2xl  text-gray-800'>Package Cost</h2>
 
 			{/* Add Renovation Form */}
 			<button
@@ -129,7 +129,6 @@ export default function Renovations() {
 							Add
 						</button>
 						<button
-
 							onClick={() => setepenseForm(false)}
 							className='me-1 pe-1 text-gray-600 hover:underline'>
 							Cancel

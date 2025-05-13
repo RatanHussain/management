@@ -13,6 +13,7 @@ import {
 import { db } from '../App';
 import Swal from 'sweetalert2';
 import { PhoneOutgoing } from 'lucide-react';
+import dayjs from 'dayjs';
 
 export default function Owners() {
 	const [owners, setOwners] = useState([]);
@@ -160,16 +161,16 @@ export default function Owners() {
 						/>
 					</div>
 					<div className='flex justify-between pt-2'>
-					<button
-						type='submit'
-						className='bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition'>
-						Add User
-					</button>
-					<button
-						onClick={() => setAddUser(null)}
-						className='me-1 pe-1 text-gray-600 hover:underline'>
-						Cencel
-					</button>
+						<button
+							type='submit'
+							className='bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition'>
+							Add User
+						</button>
+						<button
+							onClick={() => setAddUser(null)}
+							className='me-1 pe-1 text-gray-600 hover:underline'>
+							Cencel
+						</button>
 					</div>
 				</form>
 			)}
@@ -201,19 +202,19 @@ export default function Owners() {
 									<td className='px-6 py-4 text-gray-800 font-medium'>
 										{owner.name}
 									</td>
-									<td className='px-6 py-4 hidden md:table-cell'>
+									<td className=' py-4 hidden md:table-cell'>
 										<span className='bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-semibold'>
 											{owner.roomNumber}
 										</span>
 									</td>
-									<td className='px-6 py-4 text-center  md:table-cell text-gray-700 text-sm'>
+									<td className='py-4 text-center  md:table-cell text-gray-700 text-sm'>
 										<a
 											href={`tel:${owner.phone}`}
-											className='text-blue-600 m-auto text-center hover:underline'>
+											className='text-blue-600 flex justify-center items-center m-auto text-center hover:underline'>
 											<PhoneOutgoing className='m-auto' size='20' />
 										</a>
 									</td>
-									<td className='px-6 py-4 text-sm'>
+									<td className='px-6 py-4 text-center text-sm'>
 										<button
 											onClick={() =>
 												expandedOwnerId === owner.id
@@ -224,17 +225,19 @@ export default function Owners() {
 											{expandedOwnerId === owner.id ? 'Hide' : 'Show'}
 										</button>
 										{expandedOwnerId === owner.id && (
-											<div className='mt-3 text-xs text-gray-700 space-y-1'>
+											<div className='mt-3 text-xs text-[0.5rem] text-gray-700 space-y-1'>
 												{(owner.payments || []).length > 0 ? (
 													owner.payments.map((p, idx) => (
 														<div key={idx} className='flex items-center gap-2'>
-															<span className='font-medium'>{p.month}:</span>
-															<span>SAR {p.amount}</span>
+															<span className='font-medium'>
+																{dayjs(`${p.month}-01`).format('MMM-YY')}
+															</span>
+															<span>SAR{p.amount}</span>
 															<span
 																className={
-																	p.paid ? 'text-green-600' : 'text-red-600'
+																	p.paid ? 'text-green-600 ' : 'text-red-600'
 																}>
-																{p.paid ? '✅ Paid' : '❌ Unpaid'}
+																{p.paid ? '✅' : '❌'}
 															</span>
 														</div>
 													))
