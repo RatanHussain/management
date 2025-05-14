@@ -202,7 +202,7 @@ export default function Owners() {
 									<td className='px-6 py-4 text-gray-800 font-medium'>
 										{owner.name}
 									</td>
-									<td className=' py-4 hidden md:table-cell'>
+									<td className='text-center py-4 hidden md:table-cell'>
 										<span className='bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-semibold'>
 											{owner.roomNumber}
 										</span>
@@ -249,7 +249,7 @@ export default function Owners() {
 											</div>
 										)}
 									</td>
-									<td className='px-6 py-4 space-y-2 text-sm'>
+									<td className=' py-4 text-center space-y-2 txt text-sm'>
 										<button
 											onClick={() => handleDelete(owner.id)}
 											className='bg-red-500 text-white px-3 py-1 rounded-full hover:bg-red-600 transition hidden md:table-cell'>

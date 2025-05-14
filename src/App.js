@@ -99,7 +99,7 @@ export default function App() {
 				</nav>
 
 				{/* Main Content with padding to account for navbar */}
-				<main className='pt-24  p-2 '>
+				<main className='pt-24  p-2  overflow-hidden'>
 					{' '}
 					{/* 👈 push content down more */}
 					<Routes>
