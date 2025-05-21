@@ -225,7 +225,7 @@ export default function Owners() {
 											{expandedOwnerId === owner.id ? 'Hide' : 'Show'}
 										</button>
 										{expandedOwnerId === owner.id && (
-											<div className='mt-3 text-xs text-[0.5rem] text-gray-700 space-y-1'>
+											<div className='mt-3 text-xs text-[0.4rem] text-gray-700 space-y-1'>
 												{(owner.payments || []).length > 0 ? (
 													owner.payments.map((p, idx) => (
 														<div key={idx} className='flex items-center gap-2'>
@@ -235,7 +235,9 @@ export default function Owners() {
 															<span>SAR{p.amount}</span>
 															<span
 																className={
-																	p.paid ? 'text-green-600 ' : 'text-red-600'
+																	p.paid
+																		? 'text-green-600 text-[0.35rem]'
+																		: 'text-red-600'
 																}>
 																{p.paid ? '✅' : '❌'}
 															</span>
