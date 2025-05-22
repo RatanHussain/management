@@ -173,7 +173,7 @@ export default function Renovations() {
 									{entry.description}
 								</td>
 								<td className='px-6 py-4 text-right text-sm font-medium text-emerald-600'>
-									{entry.amount.toFixed(2)}
+									{entry.amount}
 								</td>
 								<td className='px-6 hidden md:table-cell py-4 text-center'>
 									<button

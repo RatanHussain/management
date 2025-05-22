@@ -191,34 +191,34 @@ export default function Dashboard() {
 	return (
 		<div className='space-y-8  pt-5'>
 			{/* Monthly Revenue Chart */}
-				<div className='mt-5 py-6' >
-					<h2 className='text-2xl font-bold text-gray-800 mb-4 px-5'>
-						Monthly Revenue Overview
-					</h2>
-					<ResponsiveContainer width='100%' height={300}>
-						<LineChart
-							data={getChartData(owners, renovationData)}
-							margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-							<CartesianGrid strokeDasharray='3 3' />
-							<XAxis dataKey='month' />
-							<YAxis />
-							<Tooltip />
-							<Legend />
-							<Line
-								type='monotone'
-								dataKey='rent'
-								stroke='#10B981'
-								name='Payment Received'
-							/>
-							<Line
-								type='monotone'
-								dataKey='renovation'
-								stroke='#F59E0B'
-								name='Expenses (Internet)'
-							/>
-						</LineChart>
-					</ResponsiveContainer>
-				</div>
+			<div className='mt-5 py-6'>
+				<h2 className='text-2xl font-bold text-gray-800 mb-4 px-5'>
+					Monthly Revenue Overview
+				</h2>
+				<ResponsiveContainer width='100%' height={300}>
+					<LineChart
+						data={getChartData(owners, renovationData)}
+						margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+						<CartesianGrid strokeDasharray='3 3' />
+						<XAxis dataKey='month' />
+						<YAxis />
+						<Tooltip />
+						<Legend />
+						<Line
+							type='monotone'
+							dataKey='rent'
+							stroke='#10B981'
+							name='Payment Received'
+						/>
+						<Line
+							type='monotone'
+							dataKey='renovation'
+							stroke='#F59E0B'
+							name='Expenses (Internet)'
+						/>
+					</LineChart>
+				</ResponsiveContainer>
+			</div>
 			{/* Summary Section */}
 			<div className='grid grid-cols-1 px-2 md:grid-cols-2 lg:grid-cols-4 gap-6'>
 				{/* Total Users Card */}
@@ -278,11 +278,11 @@ export default function Dashboard() {
 				</div>
 			</div>
 
-
-
 			{/* User Status Table */}
 			<div className='bg-white py-6 rounded-2xl shadow-xl'>
-				<h2 className='text-3xl font-bold text-gray-800 px-5 mb-6'>User Status</h2>
+				<h2 className='text-3xl font-bold text-gray-800 px-5 mb-6'>
+					User Status
+				</h2>
 				<div className='overflow-x-auto'>
 					<table className='min-w-full text-center border-separate border-spacing-y-2'>
 						<thead className='bg-gradient-to-r from-slate-100 to-slate-200 rounded-lg'>
@@ -386,7 +386,9 @@ export default function Dashboard() {
 																owner.name
 															},\nYour internet bill for: ${currentUnpaid
 																.concat(remainingUnpaid)
-																.join(', and ')}\n \nPlease pay as soon as possible.`;
+																.join(
+																	', and '
+																)}\n \nPlease pay as soon as possible.`;
 															window.open(
 																`https://wa.me/${
 																	owner.phone
@@ -419,9 +421,6 @@ export default function Dashboard() {
 						</tbody>
 					</table>
 				</div>
-
-
-
 			</div>
 		</div>
 	);
